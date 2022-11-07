@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="my-project3Flow" doc:id="9e3ae787-dcb9-43fc-adea-c8938646990a" >
+		<http:listener doc:name="Listener" doc:id="5dfc15a0-f19d-462c-bfc1-affa65c2e8ba" config-ref="HTTP_Listener_config" path="/myproject3"/>
+		<logger level="INFO" doc:name="Logger" doc:id="9c2ef072-1b4a-40cf-b33a-6ed025ca4548" message="flow started"/>
+		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="28e86a5d-e4f1-42e5-bc8c-8ee676d579a8" />
+		<ee:transform doc:name="Transform Message" doc:id="036492dd-6d58-4ed4-8557-ed92ecd3c9ee" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+ "name":payload.personalinfo.name,
+ "husbandname":payload.personalinfo.husbandname
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="f401f531-9d13-4641-bc81-284199587c12" message="flow completed"/>
+	</flow>
+</mule>
